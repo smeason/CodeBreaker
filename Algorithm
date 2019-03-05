@@ -1,0 +1,57 @@
+Algorithm for Code Breaker
+6 colours, code length 4, max 10 guesses
+Colours are green, red, blue, yellow, orange, purple
+
+Declare and initialize public constants
+Final int VALID_CHARS = 6
+Final int CODE_LENGTH=4
+Final int MAX_GUESSES=10
+main 
+createCode method
+
+
+createCode
+randomColours
+
+randomColours, returns char array
+  Declare and initialize boolean repeats=true
+  Declare char array, char[] code = new char[4];
+  Generate a random int, store into temp char, int temp = (int)(Math.random()*6)
+  determineColour()
+  Set to code[0]
+  For loop(repeat 3 times with )
+    Generate a random int, store into temp char, int temp = (int)(Math.random()*6)
+    Char temp2 = determineColour
+    Set code[i] to temp2
+
+
+
+determineColour, pass in integer, int i, return char
+If (i == 0)
+I = “G”
+Else if i == 1
+I = “R”
+Else if i == 1
+I = “B”
+Else if i == 1
+I = “Y”
+Else if i == 1
+I = “O”
+Else if i == 1
+I = “P”
+Return i
+
+Valid
+
+
+
+Find
+
+findFullyCorrect
+
+removeFullyCorrect
+
+findColourCorrect
+
+displayGame
+
