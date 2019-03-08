@@ -1,0 +1,26 @@
+	public static char[] createCode (String colours, int codeLen) {
+	//	boolean repeats = true;
+		
+		char[] tempCode = new char[codeLen];
+		int temp = (int)(Math.random()*6);
+		tempCode[0] = determineColour(temp);
+		
+		for (int i = 1; i < codeLen; i++) {
+			temp = (int)(Math.random()*6);
+			char temp2 = determineColour(temp);
+			tempCode[i] = temp2;
+		}
+		return tempCode;
+		
+	}
+	public static char determineColour (int num) {
+		char colour = 0;
+		if (num == 0) colour = 'G';
+		else if (num == 1) colour = 'R';
+		else if (num == 2) colour = 'B';
+		else if (num == 3) colour = 'Y';
+		else if (num == 4) colour = 'O';
+		else colour = 'P';
+		return colour;
+	
+	}
