@@ -1,4 +1,4 @@
-  public static boolean valid(char[] answer, String colours, int length) {                                              //method to check if the guess of the player is valid
+  public static boolean valid(char[] guess, String colours, int length) {                                              //method to check if the guess of the player is valid
     int validCounter = 0;                                                                                               //initialize counter variable
     if (length!=CODE_LENGTH) {                                                                                          //determine if guess is the correct length
       System.out.println("Please enter your guess again of length "+CODE_LENGTH+" using the letters "+colours);
@@ -7,7 +7,7 @@
    
     for (int i=0; i<CODE_LENGTH; i++) {                                                                                 //nested for loops to determine if each colour guessed is a valid colour
       for (int j=0; j<colours.length(); j++) {
-        if (answer[i]==(colours.charAt(j))) {
+        if (guess[i]==(colours.charAt(j))) {
           validCounter++;
         }
       }
