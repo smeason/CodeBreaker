@@ -1,0 +1,13 @@
+  public static void displayGame(char[][] guessBoard, char[][] responseBoard) {
+    System.out.println("Guess      Clues");
+    System.out.println("****************");
+    for (int i=0; i<row; i++){
+      for (int j=0; j<CODE_LENGTH; j++) {
+        System.out.print(guessBoard[i][j]);
+      }
+      for (int j=0; j<CODE_LENGTH; j++) {
+        System.out.println(responseBoard[i][j]);
+      }
+      System.out.println("");
+    }
+  }
