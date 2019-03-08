@@ -1,11 +1,11 @@
-  public static char[] findFullyCorrect (char[] guess, char[] code) {
-    char[] tempResponse = new char[4];
-    respIndex=0;
-    for (int i=0; i<guess.length; i++) {
+  public static char[] findFullyCorrect (char[] guess, char[] code) {                                      //finds which colours in the guess are the correct colour and position
+    char[] tempResponse = new char[4];                                                                     //char array to store temporary response
+    respIndex=0;                                                                                           //counter to store the index of the response
+    for (int i=0; i<guess.length; i++) {                                                                   //for loop to check each element of the guess
       if (guess[i]==code[i]) {
         tempResponse[respIndex]='b';
         respIndex++;
       }
     }
-    return tempResponse;
+    return tempResponse;                                                                                   //return the temporary response array
   }
