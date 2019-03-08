@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+
+public class one {
+
+	static final int VALID_CHARS = 6;
+	static final int CODE_LENGTH = 4;
+	static final int MAX_GUESSES = 10;
+	static int row = 0;
+	static char[][] guessBoard = new char[MAX_GUESSES][CODE_LENGTH];
+	static char[][] responseBoard = new char[MAX_GUESSES][CODE_LENGTH];
+	static String colours = "YGBOPR";
+	static int turnNum = 0;
+	static int j = 0;
+	static int respIndex= 0; // counter for responseBoard
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		char[] code = new char[CODE_LENGTH];
+		code = createCode(colours, CODE_LENGTH);
+		// output instructions
+		System.out.println("CODE BREAKER");
+		
+		for (int row = 0; row < MAX_GUESSES; row++) {
+			System.out.println("GUESS THE CODE:");
+			System.out.print("----:");
+			String strGuess = sc.next();
+			char[] guess = new char[strGuess.length()];
+			for(int i = 0; i < strGuess.length(); i++) {
+				guess[i] = strGuess.charAt(i);
+			}
+			while(valid(guess, colours, 6)) {
+				findFullyCorrect(code, guess);
+				if (j == CODE_LENGTH - 1) {
+					System.out.println("Congratulations! It took you " + row + " guesses to find the code.");
+				}
+				removeFullyCorrect(code, guess);
+				findColourCorrect(board, guess);
+				display(board, responseBoard);
+				
+			}
+			System.out.println("I'm sorry you lose. The correct code was " + code + ".");
+		}
+		
+		
+		
+	}
