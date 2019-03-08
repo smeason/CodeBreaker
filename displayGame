@@ -1,7 +1,7 @@
-  public static void displayGame(char[][] guessBoard, char[][] responseBoard) {
-    System.out.println("Guess      Clues");
+  public static void displayGame(char[][] guessBoard, char[][] responseBoard) {                                  //method to display the game board
+    System.out.println("Guess      Clues");                                                                      //print headers and separation lines
     System.out.println("****************");
-    for (int i=0; i<row; i++){
+    for (int i=0; i<row; i++){                                                                                   //nested for loop to print everything in order
       for (int j=0; j<CODE_LENGTH; j++) {
         System.out.print(guessBoard[i][j]);
       }
