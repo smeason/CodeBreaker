@@ -1,0 +1,11 @@
+  public static char[] findFullyCorrect (char[] guess, char[] code) {
+    char[] tempResponse = new char[4];
+    respIndex=0;
+    for (int i=0; i<guess.length; i++) {
+      if (guess[i]==code[i]) {
+        tempResponse[respIndex]='b';
+        respIndex++;
+      }
+    }
+    return tempResponse;
+  }
