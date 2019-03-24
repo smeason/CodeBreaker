@@ -1,3 +1,10 @@
+  /* 
+   * this method finds fully correct responses within the guess
+   * @param guess this is the guess that the player made
+   * @param code this is the correct code
+   * @return this method returns the response 'b' for each fully correct colour in the guess
+   */
+  
   public static char[] findFullyCorrect (char[] guess, char[] code) {                                      //finds which colours in the guess are the correct colour and position
     char[] tempResponse = new char[4];                                                                     //char array to store temporary response
     respIndex=0;                                                                                           //counter to store the index of the response
