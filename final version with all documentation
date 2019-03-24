@@ -280,7 +280,7 @@ public class codeBreaker {
 			for (int j = 0; j < SIZE; j++) { // print out the guessBoard separated by spaces.
 				System.out.print(guessBoard[i][j] + " ");
 			}
-			System.out.print("    ");
+			System.out.print("   ");
 			for (int j = 0; j < SIZE; j++) { // print out the responseBoard separated by spaces
 				System.out.print(responseBoard[i][j] + " ");
 			}
