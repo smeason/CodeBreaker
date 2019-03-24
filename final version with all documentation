@@ -1,0 +1,242 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/*
+ * Assignment: Code Breaker, created by Samson and Bryan
+ * Date: March 8th 2019
+ * Description: A simple text-based program on the classic codebreaker game.
+ * 				The game is played with computer creating code and clues, and player guessing.
+ * 				In this version, there are 6 possible colours, and a 4 colour code, with duplicate colours allowed.
+ */
+
+public class CodeBreaker {
+
+	static final int VALID_CHARS = 6;
+	static final int SIZE = 4;
+	static final int TRIES = 10;
+	static int row = 0;
+	static char[][] guessBoard = new char[TRIES][SIZE];
+	static char[][] responseBoard = new char[TRIES][SIZE];
+	static String colours = "YGBOPR";
+	static int respIndex = 0; // counter for responseBoard
+	static char[] tempCode;
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		char[] code = new char[SIZE];
+		code = createCode(colours, SIZE); // set code to a randomly generated code, with a length of 4.
+
+		// output instructions
+		System.out.println("\n\n+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+		System.out.println("| C O D E   B R E A K E R |");
+		System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+		System.out.println("\nCreated by: Samson Wu and Bryan Chen.");
+		System.out.println("(March 22, 2019)");
+
+		System.out.println("\nHow to play the game: ");
+		System.out.println(" * In this game, there are two people, you and the computer.");
+		System.out.println(
+				" * The computer will create a four letter code, using 6 colours, Yellow, Green, Blue, Orange, Purple, and Red.");
+		System.out.println(" * After this is created, you will have 10 chances to guess the correct code.");
+		System.out.println(" * To assist you in your code breaking, there will be clues provided.");
+		System.out.println(" * You will get \"b\" for black and \"w\" for white.");
+		System.out.println(" * Black means you guessed the correct colour AND placement.");
+		System.out.println(" * White means you guessed ONLY the correct colour.");
+
+		System.out.println(code); // delete later
+
+		for (row = 0; row < TRIES; row++) { // runs through every guess, with row acting as the row in the board 2d
+											// array.
+			System.out
+					.println("\nGuess the code with a length of " + SIZE + " using the available colours: " + colours);
+			System.out.print("######:");
+			String strGuess = sc.next(); // get input and store in a temporary string guess.
+			char[] guess = new char[strGuess.length()];
+			for (int i = 0; i < strGuess.length(); i++) {
+				char temp = strGuess.charAt(i);
+				guess[i] = temp; // set the guess to a char array
+			}
+
+			if (valid(guess, colours, guess.length)) {
+				// add guess to guessBoard now that it is valid
+				guessBoard[row] = guess;
+
+				// Check for solved
+				boolean solved = true;
+				for (int i = 0; i < SIZE; i++) { // checks if guess and code aren't equal at any point
+					if (guess[i] != code[i]) {
+						solved = false;
+						break;
+					}
+				}
+				if (solved == true) {
+					System.out.println("Congratulations! It took you " + (row + 1) + " guesses to find the code.");
+					return; // end program
+				}
+				// end of check for solved
+
+				char[] currResponse = new char[SIZE]; // create a current response array that holds the black outputs.
+				currResponse = findFullyCorrect(code, guess); // find 'b' outputs
+				for (int i = 0; i < SIZE; i++) {
+					responseBoard[row][i] = currResponse[i]; // fill in the responseBoard with b's.
+				}
+
+				char[] ColourCorrect; // holds correct colours, or w's.
+				ColourCorrect = removeFullyCorrect(code, guess);
+				findColourCorrect(tempCode, ColourCorrect); // find 'w' outputs
+				displayGame(guessBoard, responseBoard); // display the board. Only outputs necessary lines.
+
+			} else { // if guess is invalid, get them to geuss again, without adding to the row,
+						// since a guess cannot be added.
+				row--;
+			}
+		}
+		System.out.print("I'm sorry, you lose. The correct code was ");
+		for (int i = 0; i < SIZE; i++) {
+			System.out.print(code[i]);
+		}
+		System.out.print(".");
+
+	}
+
+	/**
+	 * Returns a char array with the y (6 in this case) available colours, Yellow, Green, Blue,
+	 * Orange, Purple and Red.
+	 * <p>
+	 * This method is used to create a x length code with the 6 available colours.
+	 * This is done using a random number generator, and calling on the
+	 * determineColour method.
+	 *
+	 * @param colours This has all of the 6 colours to make the code.
+	 * @param codeLen This is the constant for the length of the code.
+	 * @return the x (4 in this case) letter code
+	 */
+	public static char[] createCode(String colours, int codeLen) {
+
+		char[] tempCode = new char[codeLen]; // temporary code that will be returned.
+
+		for (int i = 0; i < codeLen; i++) {
+			int randNum = (int) (Math.random() * colours.length()); // randomly generate a number with the number of colours/letters.
+			char letter = determineColour(randNum); // calls on determineColour method to convert the int to a letter.
+			tempCode[i] = letter;
+		}
+		return tempCode;
+
+	}
+
+	/**
+	 * This method converts a randomly generated number into a colour.
+	 * @param num a number to be converted to a colour.
+	 * @return the colour
+	 */
+	public static char determineColour(int num) {
+		char colour = colours.charAt(num);
+		return colour;
+	}
+
+	public static boolean valid(char[] guess, String colours, int length) { // method to check if the guess of the
+																			// player is valid
+		int validCounter = 0; // initialize counter variable
+		if (length != SIZE) { // determine if guess is the correct length
+			System.out.println("Please enter your guess again of length " + SIZE + " using the letters " + colours);
+			return false; // return false if guess is wrong length
+		}
+
+		for (int i = 0; i < SIZE; i++) { // nested for loops to determine if each colour guessed is a valid
+			validCounter = 0; // colour
+			for (int j = 0; j < colours.length(); j++) {
+				if (guess[i] == (colours.charAt(j))) {
+					validCounter++;
+				}
+			}
+			if (validCounter == 0) {
+				System.out.println("Please enter your guess again of length " + SIZE + " using the letters " + colours);
+				return false; // if the guess contains a colour that is invalid, returns false
+			}
+		}
+		return true; // if no problems are encountered, return true
+	}
+	
+	public static char[] findFullyCorrect(char[] code, char[] guess) {
+		char[] tempResponse = new char[SIZE];
+		respIndex = 0;
+		for (int i = 0; i < guess.length; i++) {
+			if (guess[i] == code[i]) {
+				tempResponse[respIndex] = 'b';
+				respIndex++;
+			}
+		}
+		return tempResponse;
+	}
+
+	/**
+	 * This method removes the colours in the code and guess array that are the same colour and same position.
+	 * @param code this is the code the player needs to guess.
+	 * @param guess this is the current guess the player has made.
+	 * @return the remaining array of letters with no fully correct colours.
+	 */
+	public static char[] removeFullyCorrect(char[] code, char[] guess) {
+		String strCorrect = "";
+		String strCode = "";
+		for (int i = 0; i < SIZE; i++) {
+			if (guess[i] != code[i]) {
+				strCorrect += guess[i];
+				strCode += code[i];
+			}
+		}
+		char[] fullyCorrect = new char[strCorrect.length()];
+		tempCode = new char[strCorrect.length()];
+		for (int i = 0; i < strCorrect.length(); i++) {
+			fullyCorrect[i] = strCorrect.charAt(i);
+			tempCode[i] = strCode.charAt(i);
+		}
+		return fullyCorrect;
+	}
+
+	/**
+	 * This method finds if the user has found correct colours using the code and guess arrays that exclude the correct position.
+	 * It doesn't return anything, and instead adds w's to the responseBoard.
+	 * @param code this is the code the player needs to guess.
+	 * @param guess this is the current guess the player has made.
+	 */
+	public static void findColourCorrect(char[] code, char[] guess) {
+		ArrayList<String> codeList = new ArrayList<String>();
+		ArrayList<String> guessList = new ArrayList<String>();
+		for (char i : code) {
+			String temp = Character.toString(i);
+			codeList.add(temp);
+		}
+		for (char i : guess) {
+			String temp = Character.toString(i);
+			guessList.add(temp);
+		}
+
+		for (int i = 0; i < codeList.size(); i++) {
+			for (int j = 0; j < guessList.size(); j++) {
+				if (j != i && codeList.get(i).equals(guessList.get(j))) {
+					responseBoard[row][respIndex] = 'w';
+					respIndex++;
+					guessList.set(j, "z"); // set to z so it won't check an already found pair
+					break;
+				}
+			}
+		}
+	}
+
+	public static void displayGame(char[][] guessBoard, char[][] responseBoard) {
+		System.out.println("Guess	Clues");
+		System.out.println("****************");
+		for (int i = 0; i <= row; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				System.out.print(guessBoard[i][j] + " ");
+			}
+			System.out.print("	");
+			for (int j = 0; j < SIZE; j++) {
+				System.out.print(responseBoard[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+
+}
