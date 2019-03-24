@@ -1,3 +1,11 @@
+  /* 
+   * this method prints out the board to the console for the player to see
+   * @param guessBoard this parameter is a 2D array where all the guesses are stored
+   * @param responseBoard this parameter is a 2D array where all the responses (hints) are stored
+   * @return no return, void type method.
+   */
+  
+  
   public static void displayGame(char[][] guessBoard, char[][] responseBoard) {                                  //method to display the game board
     System.out.println("Guess      Clues");                                                                      //print headers and separation lines
     System.out.println("****************");
