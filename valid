@@ -1,3 +1,13 @@
+/* 
+ * this method checks to see if the guess that the player has entered is valid
+ * @param guess this is the current guess that the player has made
+ * @param colours this is the list of valid potential colours the player can use in the guess
+ * @param length this is the length of the code that the player has entered
+ * @return a boolean true or false with the validity of the code entered
+ */
+
+
+
   public static boolean valid(char[] guess, String colours, int length) {                                              //method to check if the guess of the player is valid
     int validCounter = 0;                                                                                               //initialize counter variable
     if (length!=CODE_LENGTH) {                                                                                          //determine if guess is the correct length
